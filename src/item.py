@@ -54,6 +54,8 @@ class Item:
         """
         cls.all.clear()
         file_path = os.path.join('..', 'src', 'items.csv')
+        if not os.path.exists(file_path):
+            file_path = os.path.join('src', 'items.csv')
         with open(file_path, newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
