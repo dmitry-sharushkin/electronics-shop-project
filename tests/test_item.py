@@ -2,6 +2,7 @@
 import pytest
 
 from src.item import Item
+from src.phone import Phone
 
 
 class TesteItem:
@@ -57,3 +58,11 @@ def test_str():
     item2 = Item("Компьютер", 20000, 5)
     assert str(item1) == 'Смартфон'
     assert str(item2) == 'Компьютер'
+
+
+def test_add():
+    phone1 = Phone("iPhone 14", 120_000, 5, 2)
+    item1 = Item("Смартфон", 10000, 20)
+    assert item1 + phone1 == 25
+    assert phone1 + phone1 == 10
+    assert item1 + 1000 is None
