@@ -2,6 +2,10 @@ import csv
 import os.path
 
 
+class InstantiateCSVError(Exception):
+    pass
+
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -66,10 +70,15 @@ class Item:
         file_path = os.path.join('..', 'src', 'items.csv')
         if not os.path.exists(file_path):
             file_path = os.path.join('src', 'items.csv')
-        with open(file_path, newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                cls(row['name'], row['price'], row['quantity'])
+        try:
+            with open(file_path, newline='') as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    if 'name' not in row or 'price' not in row or 'quantity' not in row:
+                        raise InstantiateCSVError('Файл item.csv поврежден')
+                    cls(row['name'], float(row['price']), int(row['quantity']))
+        except FileNotFoundError:
+            raise FileNotFoundError('Отсутствует файл item.csv')
 
     @staticmethod
     def string_to_number(string: str) -> int:

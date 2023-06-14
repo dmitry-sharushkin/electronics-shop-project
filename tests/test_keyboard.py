@@ -1,5 +1,4 @@
-from src.keyboard import Keyboard, MixinLanguage
-from src.item import Item
+from src.keyboard import Keyboard
 
 
 def test_init():
