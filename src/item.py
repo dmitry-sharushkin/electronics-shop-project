@@ -3,7 +3,11 @@ import os.path
 
 
 class InstantiateCSVError(Exception):
-    pass
+    def __init__(self, *args, **kwargs):
+        self.message = args[0] if args else f'Файл item.csv поврежден'
+
+    def __str__(self):
+        return self.message
 
 
 class Item:
@@ -75,7 +79,7 @@ class Item:
                 reader = csv.DictReader(csvfile)
                 for row in reader:
                     if 'name' not in row or 'price' not in row or 'quantity' not in row:
-                        raise InstantiateCSVError('Файл item.csv поврежден')
+                        raise InstantiateCSVError
                     cls(row['name'], float(row['price']), int(row['quantity']))
         except FileNotFoundError:
             raise FileNotFoundError('Отсутствует файл item.csv')
